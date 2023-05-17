@@ -11,7 +11,7 @@ const ShopSchema=new Schema({
         required:true,
     },
     price:{  
-        type:Int8Array,
+        type:String,
         required:true,
     },
     discription:{  
@@ -19,6 +19,7 @@ const ShopSchema=new Schema({
         required:true,
     },
 })
+
 
 const Shop=mongoose.model('Shop',ShopSchema,"shop");
 module.exports=Shop;
