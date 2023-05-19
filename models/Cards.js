@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 const Schema=mongoose.Schema
 
-const ShopSchema=new Schema({
+const CardSchema=new Schema({
+    base64:{
+        type:String,
+        required:true,
+    },
     type:{
         type:String,
         required:true,
@@ -18,8 +22,12 @@ const ShopSchema=new Schema({
         type:String,
         required:true,
     },
+    gender:{
+        type:String,
+        required:true,
+    }
 })
 
 
-const Shop=mongoose.model('Shop',ShopSchema,"shop");
-module.exports=Shop;
+const Card=mongoose.model('Card',CardSchema,"card");
+module.exports=Card;
