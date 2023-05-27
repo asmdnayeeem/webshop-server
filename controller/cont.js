@@ -80,13 +80,13 @@ const login = async (req, res, next) => {
   const { username, password } = req.body;
   await User.findOne({ username: username }).then((response) => {
     if (!response) {
-      res.status(404).json({
+      res.json({
         message: "User not found",
       });
     } else {
       const isMatch = bcrypt.compareSync(password, response.password);
       if (!isMatch) {
-        res.status(401).json({
+        res.json({
           message: "Invalid Credentials",
         });
       } else {
