@@ -15,19 +15,19 @@ const addCard = async (req, res, next) => {
   });
   await newcard
     .save()
-    .then((res) => res.json(res))
-    .catch((err) => err.json(err));
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
 };
 const deleteCard = async (req, res, next) => {
   const { id } = req.body;
   await Card.findByIdAndDelete(id)
-    .then((res) => res.json(res))
-    .catch((err) => err.json(err));
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
 };
 const allCards = async (req, res, next) => {
   await Card.find()
-    .then((res) => res.json(res))
-    .catch((err) => err.json(err));
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
 };
 const updateCard = async (req, res, next) => {
   const { id, base64, gender, title, price, type, brand, discription } =
@@ -41,8 +41,8 @@ const updateCard = async (req, res, next) => {
     discription: discription,
     gender: gender,
   })
-    .then((res) => res.json(res))
-    .catch((err) => err.json(err));
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
 };
 //user
 const signup = async (req, res, next) => {
@@ -101,19 +101,19 @@ const login = async (req, res, next) => {
         );
         res.status(200).json({
           message: "Login Successful",
-          token:token,
+          token: token,
         });
       }
     }
   });
 };
-const verify =async (req, res, next) => {
+const verify = async (req, res, next) => {
   const jwttoken = req.headers.authorization;
-  const s=jwttoken.split(" ")
-  const token=s[1]
+  const s = jwttoken.split(" ");
+  const token = s[1];
   // Check if the token exists
   if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: "No token provided" });
   }
 
   try {
@@ -127,8 +127,16 @@ const verify =async (req, res, next) => {
     next();
   } catch (err) {
     // Token verification failed
-    return res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
 
-module.exports = { addCard, deleteCard, allCards, updateCard, signup, login ,verify};
+module.exports = {
+  addCard,
+  deleteCard,
+  allCards,
+  updateCard,
+  signup,
+  login,
+  verify,
+};
