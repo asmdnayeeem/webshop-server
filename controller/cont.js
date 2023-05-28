@@ -29,10 +29,22 @@ const allCards = async (req, res, next) => {
     .then((r) => res.json(r))
     .catch((err) => res.json(err));
 };
+const getCards = async (req, res, next) => {
+  const { fill } = req.params;
+  await Card.find({ gender: { $in: fill } })
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
+};
+const getCard = async (req, res, next) => {
+  const { id } = req.params;
+  await Card.findOne({ id: id })
+    .then((r) => res.json(r))
+    .catch((err) => res.json(err));
+};
 const updateCard = async (req, res, next) => {
-  const { id, base64, gender, title, price, type, brand, discription } =
-    req.params;
-  await Card.findByIdAndUpdate(id, {
+  const { _id, base64, gender, title, price, type, brand, discription } =
+    req.body;
+  await Card.findByIdAndUpdate(_id, {
     base64: base64,
     title: title,
     type: type,
@@ -139,4 +151,6 @@ module.exports = {
   signup,
   login,
   verify,
+  getCards,
+  getCard
 };
