@@ -86,7 +86,7 @@ const signup = async (req, res, next) => {
           });
       });
     }
-  });
+  }).catch((err) => res.json(err));
 };
 const login = async (req, res, next) => {
   const { username, password } = req.body;
