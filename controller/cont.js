@@ -117,7 +117,7 @@ const login = async (req, res, next) => {
         });
       }
     }
-  });
+  }).catch((err) => res.json(err));
 };
 const verify = async (req, res, next) => {
   const jwttoken = req.headers.authorization;
