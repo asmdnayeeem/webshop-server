@@ -36,8 +36,8 @@ const getCards = async (req, res, next) => {
     .catch((err) => res.json(err));
 };
 const getCard = async (req, res, next) => {
-  const { id } = req.params;
-  await Card.findOne({ id: id })
+  const { id } = req.body;
+  await Card.findById(id)
     .then((r) => res.json(r))
     .catch((err) => res.json(err));
 };
