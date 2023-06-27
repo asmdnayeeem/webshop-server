@@ -11,5 +11,7 @@ router.post('/deleteCard',mainController.deleteCard)
 router.post('/updateCard',mainController.updateCard)
 router.post('/signup',mainController.signup)
 router.post('/login',mainController.login)
+router.post('/addtocart',mainController.addToCart)
+router.post('/addtowishlist',mainController.addToWishlist)
 
 module.exports =router
