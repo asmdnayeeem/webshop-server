@@ -58,15 +58,30 @@ const updateCard = async (req, res, next) => {
 };
 const addToCart = async (req, res, next) => {
   const { username, id } = req.body;
-  await User.findOne({ username: username }).then((user) => {
-    (user.cartitems = [ ...user.cartitems[0], id ]), user.save();
-  }).then(() => res.json("Card added to Cart")).catch((err) => res.json(err));
+  await User.findOne({ username: username })
+    .then((user) => {
+      if (!user.cartitems.includes(id)) {
+        (user.cartitems = [...user.cartitems, id]),
+          user.save().then(() => res.json("Card added to Card"));
+      } else {
+        res.json("Item already in cart");
+      }
+    })
+    .catch((err) => res.json(err));
 };
 const addToWishlist = async (req, res, next) => {
   const { username, id } = req.body;
-  await User.findOne({ username: username }).then((user) => {
-    (user.cartitems = [...user.cartitems[0], id ]), user.save();
-  }).then(() => res.json("Card added to Wishlist")).catch((err) => res.json(err));
+  await User.findOne({ username: username })
+    .then((user) => {
+      if (!user.wishlistitems.includes(id)) {
+        (user.wishlistitems = [...user.wishlistitems, id]),
+          user.save().then(() => res.json("Card added to Wishlist"));
+      } else {
+        res.json("Item already in wishlist");
+      }
+    })
+
+    .catch((err) => res.json(err));
 };
 //user
 const signup = async (req, res, next) => {
