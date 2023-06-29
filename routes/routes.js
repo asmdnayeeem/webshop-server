@@ -13,5 +13,7 @@ router.post('/signup',mainController.signup)
 router.post('/login',mainController.login)
 router.post('/addtocart',mainController.addToCart)
 router.post('/addtowishlist',mainController.addToWishlist)
+router.post('/viewCartItems',mainController.viewCartItems)
+router.post('/viewWishItems',mainController.viewWishItems)
 
 module.exports =router

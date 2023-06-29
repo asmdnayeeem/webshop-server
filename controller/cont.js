@@ -60,10 +60,12 @@ const addToCart = async (req, res, next) => {
   const { username, id } = req.body;
   await User.findOne({ username: username })
     .then((user) => {
-      if (!user.cartitems.includes(id)) {
+      if (!user.cartitems.includes(id) && !user.wishlistitems.includes(id)) {
         (user.cartitems = [...user.cartitems, id]),
           user.save().then(() => res.json("Card added to Card"));
-      } else {
+      } else if(user.wishlistitems.includes(id)) {
+        res.json("Item in Wishlist");
+      }else{
         res.json("Item already in cart");
       }
     })
@@ -74,6 +76,8 @@ const addToWishlist = async (req, res, next) => {
   await User.findOne({ username: username })
     .then((user) => {
       if (!user.wishlistitems.includes(id)) {
+        user.cartitems.includes(id) &&
+          user.cartitems.splice(user.cartitems.indexOf(id), 1);
         (user.wishlistitems = [...user.wishlistitems, id]),
           user.save().then(() => res.json("Card added to Wishlist"));
       } else {
@@ -81,6 +85,32 @@ const addToWishlist = async (req, res, next) => {
       }
     })
 
+    .catch((err) => res.json(err));
+};
+const viewCartItems = async (req, res) => {
+  const { username } = req.body;
+  await User.findOne({ username: username })
+    .then((user) => {
+      Card.find()
+        .where("_id")
+        .in(user.cartitems)
+        .then((cards) => {
+          res.json(cards);
+        });
+    })
+    .catch((err) => res.json(err));
+};
+const viewWishItems = async (req, res) => {
+  const { username } = req.body;
+  await User.findOne({ username: username })
+    .then((user) => {
+      Card.find()
+        .where("_id")
+        .in(user.wishlistitems)
+        .then((cards) => {
+          res.json(cards);
+        });
+    })
     .catch((err) => res.json(err));
 };
 //user
@@ -179,4 +209,6 @@ module.exports = {
   getCard,
   addToWishlist,
   addToCart,
+  viewCartItems,
+  viewWishItems,
 };
