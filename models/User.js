@@ -45,6 +45,11 @@ const userSchema = new Schema({
     required: false,
     default: "",
   },
+  cartamount:{
+    type:Number,
+    required:false,
+    default:0
+  }
 });
 
 const User = mongoose.model("User", userSchema, "user");

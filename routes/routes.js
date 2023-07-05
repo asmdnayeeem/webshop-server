@@ -15,5 +15,8 @@ router.post('/addtocart',mainController.addToCart)
 router.post('/addtowishlist',mainController.addToWishlist)
 router.post('/viewCartItems',mainController.viewCartItems)
 router.post('/viewWishItems',mainController.viewWishItems)
+router.post('/moveToCart',mainController.moveToCart)
+router.post('/cartAmount',mainController.cartAmount)
+
 
 module.exports =router

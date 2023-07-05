@@ -63,9 +63,9 @@ const addToCart = async (req, res, next) => {
       if (!user.cartitems.includes(id) && !user.wishlistitems.includes(id)) {
         (user.cartitems = [...user.cartitems, id]),
           user.save().then(() => res.json("Card added to Card"));
-      } else if(user.wishlistitems.includes(id)) {
+      } else if (user.wishlistitems.includes(id)) {
         res.json("Item in Wishlist");
-      }else{
+      } else {
         res.json("Item already in cart");
       }
     })
@@ -86,6 +86,17 @@ const addToWishlist = async (req, res, next) => {
     })
 
     .catch((err) => res.json(err));
+};
+const moveToCart = async (req, res, next) => {
+  const { username, id } = req.body;
+  await User.findOne({ username: username }).then((user) => {
+    if (!user.cartitems.includes(id)) {
+      user.wishlistitems.includes(id) &&
+        user.wishlistitems.splice(user.wishlistitems.indexOf(id), 1);
+      (user.cartitems = [...user.cartitems, id]),
+        user.save().then(() => res.json("Card added to Cart"));
+    }
+  });
 };
 const viewCartItems = async (req, res) => {
   const { username } = req.body;
@@ -112,6 +123,21 @@ const viewWishItems = async (req, res) => {
         });
     })
     .catch((err) => res.json(err));
+};
+const cartAmount = async (req, res) => {
+  const { username } = req.body;
+  const user=await User.findOne({ username: username }).then((user) => {  
+    return user;
+  })
+  let amount=0;
+  await Card.find()
+    .where("_id")
+    .in(user.cartitems)
+    .then((cards) => {
+      cards.map((card)=>{amount+=card.price})
+      res.json({"amount":amount});
+    }
+    );
 };
 //user
 const signup = async (req, res, next) => {
@@ -211,4 +237,6 @@ module.exports = {
   addToCart,
   viewCartItems,
   viewWishItems,
+  moveToCart,
+  cartAmount,
 };
